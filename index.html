@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+           <center><p>Weather App</p></center> 
+
+        </div> <center>
+        <div class="input">
+            <input type="text" id="location-input" placeholder="Location...">
+            <input type="button" value="Get" id="btn">
+        </div>
+        <div class="info">
+            
+            <div class="temp"><span id="temp-value">25</span><span id="unit">&#176</span>
+                <div id="weather-desc">Cloudy</div>
+                <div id="location">Hyderabad</div>
+            </div>
+        </div>
+    </div>
+</center>
+       <!--<script src="script.js"></script>--> 
+   
+   <script>
+    let inputEle =document.getElementById("location-input")
+let tempEle = document.getElementById("temp-value")
+let locEle = document.getElementById("location")
+let weatherdescEle = document.getElementById('weather-desc')
+let btnEle =document.getElementById("btn")
+
+
+
+const apiKey ='3f1b6a62a2a7d9e5fe96940c04e1918f';
+
+btnEle.onclick = function(){
+    if(inputEle.value =="")
+        alert("Please Enter Some Location")
+    else{
+        loc = inputEle.value
+        url = `https://api.openweathermap.org/data/2.5/weather?q=${loc}&appid=${apiKey}`
+        fetch(url).then(res => res.json())
+        .then(data =>{
+            console.log(data)
+            const{name} = data
+            const{feels_like} = data.main
+            const{description} = data.weather[0]
+            tempEle.innerText = Math.floor(feels_like-273);
+            locEle.innerText = name;
+            weatherdescEle.innerText =description
+
+        })
+        .catch(()=>{
+            alert("Enter valid location")
+        })
+        inputEle.value = ""
+        fetch(url).then(res=>res.json())
+        .then(data=>{
+            console.log(data)
+        })
+    }
+}
+   </script>
+    
+</body>
+</html>
